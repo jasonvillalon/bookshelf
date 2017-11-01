@@ -181,15 +181,7 @@ module.exports = function paginationPlugin (bookshelf) {
           : {offset: _offset, limit: _limit};
 
         if (result && result.length == 1) {
-          // We shouldn't have to do this, instead it should be
-          // result.models[0].get('count')
-          // but SQLite uses a really strange key name.
-          const count = result.models[0];
-          const keys = Object.keys(count.attributes);
-          if (keys.length === 1) {
-            const key = Object.keys(count.attributes)[0];
-            metadata.rowCount = parseInt(count.attributes[key]);
-          }
+          metadata.rowCount = parseInt(result.models[0].get('count'));
         }
 
         return metadata;
